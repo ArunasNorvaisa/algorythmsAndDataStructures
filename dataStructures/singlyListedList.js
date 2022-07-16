@@ -9,6 +9,7 @@ class SingleLinkedList {
   constructor() {
     this.head = null;
     this.tail = null;
+    this.length = 0;
   }
 
   // To the beginning / head
@@ -16,6 +17,7 @@ class SingleLinkedList {
     const newNode = new Node(value);
     newNode.next = this.head;
     this.head = newNode;
+    this.length++;
 
     if (this.tail === null) {
       this.tail = newNode;
@@ -37,6 +39,7 @@ class SingleLinkedList {
     this.tail.next = newNode;
     this.tail = newNode;
     this.tail.next = null;
+    this.length++;
 
     return this;
   }
@@ -45,12 +48,14 @@ class SingleLinkedList {
     let index = indexAt < 0 ? 0 : indexAt;
     if (index === 0) {
       this.prepend(value);
+      this.length++;
       return this;
     }
 
     const newNode = new Node(value);
-    if (index > this.lenght() - 1) {
+    if (index > this.length - 1) {
       this.append(value);
+      this.length++;
       return this;
     }
 
@@ -64,6 +69,7 @@ class SingleLinkedList {
 
     newNode.next = tempValue.next;
     tempValue.next = newNode;
+    this.length++;
 
     return this;
   }
@@ -71,13 +77,14 @@ class SingleLinkedList {
   // delete tail
   pop() {
     const prevTail = this.tail;
-    if (this.head === null) {
+    if (this.length === 0) {
       return null;
     }
 
-    if (this.head.next === null) {
+    if (this.length === 1) {
       this.head = null;
       this.tail = null;
+      this.length--;
       return prevTail;
     }
 
@@ -90,45 +97,50 @@ class SingleLinkedList {
 
     prev.next = null;
     this.tail = prev;
+    this.length--;
     return prevTail;
   }
 
   // remove head
   unshift() {
     const prevHead = this.head;
-    if (this.head === null) {
+    if (this.length === 0) {
       return null;
     }
 
-    if (this.head.next === null) {
+    if (this.length === 1) {
       this.head = null;
       this.tail = null;
+      this.length--;
       return prevHead;
     }
 
     this.head = prevHead.next;
+    this.length--;
     return prevHead;
   }
 
-  lenght() {
-    if (this.head === null) {
-      return 0;
+  toArray() {
+    const arr = [];
+
+    let currentNode = this.head;
+    while (currentNode) {
+      arr.push(currentNode);
+      currentNode = currentNode.next;
     }
 
-    let curr = this.head;
-    let temp = 1;
-
-    while(curr.next) {
-      curr = curr.next;
-      temp++;
-    }
-
-    return temp;
+    return arr;
   }
 
+  fromArray(arr) {
+    arr.forEach((x) => this.append(x));
+
+    return this;
+  }
 }
 
 const q = new SingleLinkedList();
+q.insert(0, 15);
 q.prepend('q');
 q.append('w');
 q.append('e');
@@ -138,32 +150,34 @@ q.append('y');
 q.append('u');
 q.append('i');
 q.append('o');
-q.insert('xxx', 7);
+q.insert('xxx', 8);
 q.append('qqqqqqqqqqqqqq');
 q.pop();
 q.unshift();
 
-console.log('L146 q ===', q);
-
+console.log('L158 q ===', q);
 /*
-'L146 q ===' SingleLinkedList {
+'L158 q ===' SingleLinkedList {
   head: Node {
-    value: 'w',
+    value: 0,
+    next: Node {
+      value: 'w',
+      next: Node {
+        value: 'e',
         next: Node {
-      value: 'e',
+          value: 'r',
           next: Node {
-        value: 'r',
+            value: 't',
             next: Node {
-          value: 't',
+              value: 'y',
               next: Node {
-            value: 'y',
+                value: 'u',
                 next: Node {
-              value: 'u',
+                  value: 'xxx',
                   next: Node {
-                value: 'xxx',
-                    next: Node {
-                  value: 'i',
-                      next: Node { value: 'o', next: null },
+                    value: 'i',
+                    next: Node { value: 'o', next: null }
+                  },
                   ['__proto__']: { constructor: ƒ Node() }
                 }
               },
@@ -177,14 +191,16 @@ console.log('L146 q ===', q);
     }
   },
   tail: Node { value: 'o', next: null },
+  lenght: 10,
   ['__proto__']: {
     constructor: ƒ SingleLinkedList(),
-        prepend: ƒ prepend(),
-        append: ƒ append(),
-        insert: ƒ insert(),
-        pop: ƒ pop(),
-        unshift: ƒ unshift(),
-        lenght: ƒ lenght()
+    prepend: ƒ prepend(),
+    append: ƒ append(),
+    insert: ƒ insert(),
+    pop: ƒ pop(),
+    unshift: ƒ unshift(),
+    toArray: ƒ toArray(),
+    fromArray: ƒ fromArray()
   }
 }
 */

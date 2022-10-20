@@ -18,7 +18,7 @@ const selectionSort = (arr) => {
     [tempArray[min], tempArray[i]] = [tempArray[i], tempArray[min]];
   }
 
-  return tempArray;
+  return tempArray
 };
 
 const digits = [0, -23, -4, 11, -88, 45, 5, 0, 23, 23, -88];

@@ -18,10 +18,6 @@
 */
 
 const cocktailShakerSort = (arr) => {
-  if (arr.some((x) => isNaN(x))) {
-    throw new Error ('This method sorts only numbers');
-  }
-
   if (arr.length < 2) {
     return arr;
   }
@@ -29,15 +25,19 @@ const cocktailShakerSort = (arr) => {
   const items = [...arr];
 
   for (let i = 0; i < arr.length; i++) {
+    if (isNaN(items[i])) {
+      throw new Error ('This method sorts only numbers');
+    }
+
     for (let j = 0; j < i; j++) {
       if (items[j] > items[j + 1]) {
         [items[j], items[j + 1]] = [items[j + 1], items[j]]
       }
     }
 
-    for (let j = items.length - 1; j > i; j--) {
-      if (items[j] < items[j - 1]) {
-        [items[j], items[j - 1]] = [items[j - 1], items[j]]
+    for (let k = items.length - 1; k > i; k--) {
+      if (items[k] < items[k - 1]) {
+        [items[k], items[k - 1]] = [items[k - 1], items[k]]
       }
     }
   }
